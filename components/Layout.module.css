@@ -3,3 +3,8 @@
   padding: 0 1rem;
   margin: 3rem auto 6rem;
 }
+
+
+.pickName {
+  border: 2px solid red;
+}

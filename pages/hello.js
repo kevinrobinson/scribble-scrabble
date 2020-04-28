@@ -6,7 +6,7 @@ export default function Hello() {
       <h1>hello!</h1>
       <form>
         <div>what's your name?</div>
-        <input type="text" placeholder="Ezekiel Webster" />
+        <input type="text" placeholder="M. Webster" />
         <button type="submit">ok</button>
       </form>
     </Layout>

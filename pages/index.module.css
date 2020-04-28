@@ -1,0 +1,6 @@
+.newGame button {
+  padding: 10px;
+  background: #f8f8f8;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}

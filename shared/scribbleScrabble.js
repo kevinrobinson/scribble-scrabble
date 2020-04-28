@@ -2,7 +2,7 @@ import {v4 as uuidv4} from 'uuid';
 import _ from 'lodash';
 
 
-export function createGame(playerId) {
+export function newGame(playerId) {
   const timestamp = new Date();
   const key = uuidv4();
   const doc = {
