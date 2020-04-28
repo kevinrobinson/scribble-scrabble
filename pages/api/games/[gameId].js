@@ -2,7 +2,7 @@ import getConfig from 'next/config'
 import {runMiddleware, enforceHTTPS} from '../../../middleware/middleware';
 
 export default async function(req, res) {
-  await runMiddleware(enforceHTTPS);
+  await runMiddleware(req, res, enforceHTTPS);
 
   const {PORT} = getConfig().serverRuntimeConfig;
   console.log('PORT', PORT);
