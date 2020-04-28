@@ -2,14 +2,11 @@ import getConfig from 'next/config'
 import Layout from '../../components/Layout';
 import {useMagic} from '../../hooks/useMagic';
 
-export default function Game({gameId}) {
-  // const {data, error, isValidating, mutate} = useMagic(`/games/${gameId}/json`);
-  const {PORT} = getConfig().serverRuntimeConfig;
-  const {data, error, isValidating, mutate} = useMagic(`/api/games/${gameId}`);
+export default function Game({gameKey}) {
+  const {data, error, isValidating, mutate} = useMagic(`/api/games/${gameKey}`);
   return (
     <Layout>
-      <h1>PORT: {PORT}</h1>
-      <h1>game: {gameId}</h1>
+      <h1>game: {gameKey}</h1>
       <pre>data: {JSON.stringify(data, null, 2)}</pre>
       <pre>error: {JSON.stringify(error, null, 2)}</pre>
       <pre>isValidating: {JSON.stringify(isValidating, null, 2)}</pre>
@@ -18,10 +15,10 @@ export default function Game({gameId}) {
 }
 
 export async function getServerSideProps(context) {
-  const {gameId} = context.params;
+  const {gameKey} = context.params;
   return {
     props: {
-      gameId
+      gameKey
     }
   };
 }
