@@ -1,5 +1,5 @@
 import getConfig from 'next/config'
-import {runMiddleware, enforceHTTPS} from '../../middleware/middleware';
+import {runMiddleware, enforceHTTPS} from '../../../middleware/middleware';
 
 export default async function(req, res) {
   await runMiddleware(enforceHTTPS);
