@@ -1,9 +1,9 @@
 import getConfig from 'next/config'
 import Layout from '../../components/Layout';
-import {useAutoFetchingMagic} from '../../helpers/fetching';
+import {usePlainFetching} from '../../helpers/fetching';
 
 export default function Game({gameKey}) {
-  const {data, error, isValidating, mutate} = useAutoFetchingMagic(`/api/games/${gameKey}`);
+  const {data, error, isValidating, mutate} = usePlainFetching(`/api/games/${gameKey}`);
   return (
     <Layout>
       <h1>game: {gameKey}</h1>

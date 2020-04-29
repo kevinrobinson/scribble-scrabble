@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import Head from 'next/head'
 import {reloadAsHTTPSInProduction} from '../helpers/reloadAsHTTPSInProduction';
-import {useAutoFetchingMagic, postJSON} from '../helpers/fetching'
+import {usePlainFetching, postJSON} from '../helpers/fetching'
 import styles from './Layout.module.css'
 
 
@@ -22,12 +22,11 @@ export default function Layout({children}) {
 
 
 function WithPlayerName({children}) {
-  const {data, isValidating, mutate} = useAutoFetchingMagic('/api/player');
+  const {data, isValidating, mutate} = usePlainFetching('/api/player');
   const playerName = (data && data.name);
   const [localName, setName] = useState(playerName || '');
-  
-  console.log('playerName', playerName);
-  return (!isValidating && playerName)
+
+  return (playerName || isValidating)
     ? children
     : <PickName onDone={mutate} />;
 }

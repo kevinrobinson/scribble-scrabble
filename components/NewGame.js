@@ -1,4 +1,5 @@
 import {useEffect, useState} from 'react';
+import Router from 'next/router'
 import {postJSON} from '../helpers/fetching'
 
 
@@ -12,7 +13,7 @@ export default function NewGame({children}) {
 
   useEffect(() => {
     if (!game) return;
-    window.location = `/games/${game.key}`;
+    Router.push('/games/[gameKey]', `/games/${game.key}`);
   }, [game])
 
   return (

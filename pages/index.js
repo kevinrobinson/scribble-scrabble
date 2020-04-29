@@ -1,13 +1,13 @@
 import Link from 'next/link'
 import {fromUnixTime, formatRelative} from 'date-fns';
 import styles from './index.module.css';
-import {useAutoFetchingMagic} from '../helpers/fetching';
+import {usePlainFetching} from '../helpers/fetching';
 import Layout from '../components/Layout';
 import NewGame from '../components/NewGame';
 
 
 export default function Home() {
-  const {data} = useAutoFetchingMagic('/api/games');
+  const {data} = usePlainFetching('/api/games');
   const games = (data && data.games);
   return (
     <Layout>
@@ -28,7 +28,7 @@ function GameLink({game}) {
   const whenText = formatRelative(fromUnixTime(doc.createdAt/1000), new Date());
   return (
     <div>
-      <Link href={`/games/${game.key}`}>
+      <Link href="games/[gameKey]" as={`/games/${game.key}`}>
         <a>{game.key.slice(0, 6)}, {whenText}</a>
       </Link>
     </div>

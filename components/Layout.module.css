@@ -4,7 +4,11 @@
   margin: 3rem auto 6rem;
 }
 
-
 .pickName {
+  position: fixed;
+  top: 10px;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
   border: 2px solid red;
 }
