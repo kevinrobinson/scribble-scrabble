@@ -7,7 +7,7 @@ export default function GameLink({game}) {
   const whenText = formatRelative(fromUnixTime(createdAt/1000), new Date());
   return (
     <Link href="games/[gameKey]" as={`/games/${gameKey}`}>
-      <a>{gameKey.slice(0, 6)}, {whenText}</a>
+      <a>Game {gameKey.slice(0, 6)}, started {whenText}</a>
     </Link>
   )
 }

@@ -14,8 +14,38 @@ html, body {
   cursor: pointer;
 }
 
+.PickName {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #333;
+  color: white;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-
+.PickName input {
+  display: block;
+  padding: 5px;
+  width: 250px;
+}
+.PickName button {
+  display: block;
+  padding: 8px;
+  font-weight: bold;
+  background: white;
+  border: 1px solid #eee;
+  margin-top: 5px;
+}
+.PickName-greeting {
+  padding-bottom: 15px;
+  width: 250px;
+  text-align: left;
+}
 
 
 
@@ -29,6 +59,7 @@ html, body {
   align-items: center;
   justify-content: center;
   background: white;
+  position: relative;
 }
 
 

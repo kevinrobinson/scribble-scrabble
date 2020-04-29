@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
-import React, {useEffect} from 'react';
+import {useEffect} from 'react';
 import Head from 'next/head'
 import {reloadAsHTTPSInProduction} from '../helpers/reloadAsHTTPSInProduction';
-import {usePlainFetching, postJSON} from '../helpers/fetching'
-import styles from './Layout.module.css'
+import {usePlainFetching} from '../helpers/fetching'
+import PickName from './PickName';
 
 
 export default function Layout({children}) {
@@ -38,44 +38,3 @@ WithPlayerName.propTypes = {
 };
 
 
-class PickName extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      name: ''
-    };
-    this.onChange = this.onChange.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
-  }
-
-  onChange(e) {
-    e.preventDefault();
-    this.setState({name: e.target.value});
-  }
-
-  onSubmit(e) {
-    e.preventDefault();
-
-    const {name} = this.state;
-    const {onDone} = this.props;
-    postJSON('/api/players/name', {
-      body: JSON.stringify({name})
-    }).then(onDone);
-  }
-
-  render() {
-    const {name} = this.state;
-    return (
-      <div className={styles.pickName}>
-        <form onSubmit={this.onSubmit}>
-          <div>hi!  what do folks call you?</div>
-          <input type="text" placeholder="M. Webster" value={name} onChange={this.onChange} />
-          <button type="submit">Next</button>
-        </form>
-      </div>
-    );
-  }
-}
-PickName.propTypes = {
-  onDone: PropTypes.func.isRequired
-};

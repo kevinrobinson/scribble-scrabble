@@ -14,6 +14,7 @@ export default function Home() {
       <div className={styles.newGame}>
         <NewGame>New game!</NewGame>
       </div>
+      {!data && <div>loading...</div>}
       {games && games.length > 0 && games.map(game => (
         <div key={game.gameKey}>
           <GameLink game={game} />
