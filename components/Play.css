@@ -1,0 +1,216 @@
+html, body {
+  background: #f8f8f8;
+  display: flex;
+  justify-content: center;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+.Link {
+  text-decoration: underline;
+  color: #eee;
+  opacity: 0.8;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+
+
+
+
+
+
+.App {
+  text-align: center;
+  width: 376px;
+  height: 544px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: white;
+}
+
+
+.Board {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: brown;
+}
+.Board-header {
+  width: 100%;
+  padding: 5px;
+  border-bottom: 1px #ccc;
+  background: darkblue;
+  color: #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.Board-board {
+  margin-top: 20px;
+  margin-bottom: 20px;  
+  width: 345px;
+  height: 345px;
+  font-size: 0; /* see https://stackoverflow.com/questions/5078239/how-do-i-remove-the-space-between-inline-inline-block-elements */
+}
+.Board-drawer {  
+  flex: 1;
+  width: 85%;
+  border-top: 1px #ccc;
+  background: darkred;
+  color: #eee;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.Board-links {
+  background: darkblue;
+  width: 100%;
+  margin-top: 20px;
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.Board-header b {
+  font-size: 12px;
+  margin: 0;
+  padding-left: 10px;
+}
+.Board-score {
+  font-size: 12px;
+  padding-right: 10px;
+}
+.Tagline {
+  font-size: 14px;
+  color: #999;
+  padding-bottom: 10px;
+}
+
+.Tile {
+  vertical-align: top;
+  background: #f8f8f8;
+  width: 23px;
+  height: 23px;
+  display: inline-block;
+  outline: 1px solid #ccc3;
+  cursor: default;
+}
+.Tile-clickable {
+  cursor: pointer;
+}
+.Tile-content {
+  font-size: 6px;
+  letter-spacing: 0px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #333;
+}
+.scaled {
+  transform: scale(0.8);
+}
+.Start {
+  font-size: 20px;
+}
+.TripleWord {
+  background: #ef5350;
+}
+.DoubleWord {
+  background: #ffab91;
+}
+.TripleLetter {
+  background: #42a5f5;
+}
+.DoubleLetter {
+  background: lightblue;
+}
+
+
+
+.Bag {
+  display: inline-block;
+  padding: 5px;
+  font-size: 12px;
+}
+.Bag-title {
+  font-weight: bold;
+  margin-right: 10px;
+}
+.Bag-header {
+  margin: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+.Bag-list {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-left: 10px;
+  margin-right: 5px;
+}
+.Bag-letters {
+  flex: 1;
+  display: flex;
+  justify-content: flex-start;
+  margin-right: 20px;
+}
+.Bag-letter-margin {
+  margin-right: 5px;
+}
+.MarginRight {
+  margin-right: 10px;
+}
+.Play-button {
+  font-size: 12px;
+  background: white;
+  color: black;
+  font-weight: bold;
+  padding: 5px;
+  padding-left: 12px;
+  padding-right: 12px;
+  margin-right: 5px;
+  border: 1px solid darkred;
+  cursor: pointer;
+}
+
+.Points {
+  display: inline-block;
+  padding: 5px;
+  font-size: 12px;
+  color: #eee;
+}
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+.Letter {
+  position: relative;
+  display: inline-block;
+  background: #ffd453;
+  color: black;
+  height: 22px;
+  width: 22px;
+  outline: 1px solid #e0b942;
+  cursor: pointer;
+}
+.Letter-letter {
+  font-size: 16px;
+}
+.Letter-points {
+  position: absolute;
+  font-size: 7px;
+  letter-spacing: 0;
+  bottom: 1px;
+  right: 2px;
+}

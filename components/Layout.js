@@ -1,4 +1,5 @@
-import {useEffect, useState} from 'react';
+import PropTypes from 'prop-types';
+import React, {useEffect} from 'react';
 import Head from 'next/head'
 import {reloadAsHTTPSInProduction} from '../helpers/reloadAsHTTPSInProduction';
 import {usePlainFetching, postJSON} from '../helpers/fetching'
@@ -8,7 +9,7 @@ import styles from './Layout.module.css'
 export default function Layout({children}) {
   useEffect(reloadAsHTTPSInProduction, []);  
   return (
-    <div className={styles.container}>
+    <div className="App">
       <Head>
         <title>scribble</title>
         <link rel="icon" href="/favicon.ico" />
@@ -19,6 +20,9 @@ export default function Layout({children}) {
     </div>
   );
 }
+Layout.propTypes = {
+  children: PropTypes.node.isRequired
+};
 
 
 function WithPlayerName({children}) {
@@ -29,6 +33,9 @@ function WithPlayerName({children}) {
     ? children
     : <PickName onDone={mutate} />;
 }
+WithPlayerName.propTypes = {
+  children: PropTypes.node.isRequired
+};
 
 
 class PickName extends React.Component {
@@ -61,7 +68,7 @@ class PickName extends React.Component {
     return (
       <div className={styles.pickName}>
         <form onSubmit={this.onSubmit}>
-          <div>hi!  what's your name?</div>
+          <div>hi!  what do folks call you?</div>
           <input type="text" placeholder="M. Webster" value={name} onChange={this.onChange} />
           <button type="submit">Next</button>
         </form>
@@ -69,3 +76,6 @@ class PickName extends React.Component {
     );
   }
 }
+PickName.propTypes = {
+  onDone: PropTypes.func.isRequired
+};

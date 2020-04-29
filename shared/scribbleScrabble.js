@@ -58,7 +58,7 @@ function drawLetters(bagLetters, nRequested) {
   return {drawn, remaining};
 }
 
-const Tiles = {
+export const Tiles = {
   BLANK: 't:B',
   START: 't:*',
   DOUBLE_LETTER: 't:DL',
@@ -68,7 +68,7 @@ const Tiles = {
 };
 
 function makeTiles() {
-  let tiles = _.range(0, 15*15).map(t => Tiles.BLANK);
+  let tiles = _.range(0, 15*15).map(() => Tiles.BLANK);
 
   tiles[0] = Tiles.TRIPLE_WORD;
   tiles[3+15* 0] = Tiles.DOUBLE_LETTER;
@@ -153,7 +153,7 @@ function bagOfLetters() {
 }
 
 
-function calculateScore(tiles, placements) {
+export function calculateScore(tiles, placements) {
   const scores = [];
   const multipliers = [1];
   Object.keys(placements).forEach(tileIndex => {
@@ -175,7 +175,6 @@ function calculateScore(tiles, placements) {
   });
   const total = scores.reduce((sum, score) => sum + score, 0);
   const multiplier = Math.max(...multipliers);
-  console.log(scores, multipliers, total, multiplier);
   return total * multiplier;
 }
 

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import {useEffect, useState} from 'react';
 import Router from 'next/router'
 import {postJSON} from '../helpers/fetching'
@@ -17,8 +18,11 @@ export default function NewGame({children}) {
   }, [game])
 
   return (
-    <button disabled={isCreating} type="button" onClick={e => setIsCreating(true)}>
+    <button disabled={isCreating} type="button" onClick={() => setIsCreating(true)}>
       {children}
     </button>
   );
 }
+NewGame.propTypes = {
+  children: PropTypes.node.isRequired
+};

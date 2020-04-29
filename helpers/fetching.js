@@ -32,7 +32,7 @@ export function useAutoFetchingMagic(key, options) {
 // let d = {};
 // let t = {};
 // let readClockMs = () => (new Date()).getTime();
-export function usePlainFetching(url, options) {
+export function usePlainFetching(url) {
   // // busted caching
   // const cachedData = (d[url] && readClockMs() > t[url] + 1000) ? d[url] : undefined;
   const cachedData = undefined;
