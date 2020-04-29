@@ -1,15 +1,17 @@
 import getConfig from 'next/config'
-import Layout from '../../components/Layout';
 import {usePlainFetching} from '../../helpers/fetching';
+import Layout from '../../components/Layout';
+import GameLink from '../../components/GameLink';
+
 
 export default function Game({gameKey}) {
   const {data, error, isValidating, mutate} = usePlainFetching(`/api/games/${gameKey}`);
   return (
     <Layout>
-      <h1>game: {gameKey}</h1>
-      <pre>data: {JSON.stringify(data, null, 2)}</pre>
-      <pre>error: {JSON.stringify(error, null, 2)}</pre>
-      <pre>isValidating: {JSON.stringify(isValidating, null, 2)}</pre>
+      <h1>game {gameKey.slice(0, 6)}</h1>
+      {data && <GameLink game={data} />}
+      {data && <Scribble game={data} />}
+      <pre>{JSON.stringify(data, null, 2)}</pre>
     </Layout>
   );
 }
@@ -17,8 +19,17 @@ export default function Game({gameKey}) {
 export async function getServerSideProps(context) {
   const {gameKey} = context.params;
   return {
-    props: {
-      gameKey
-    }
+    props: {gameKey}
   };
+}
+
+
+function Scribble({game}) {
+  const {players, letters, moves} = game;
+  return (
+    <div>
+      <div>players: {players.length}</div>
+      <div>letters: {letters.map(letter => letter.key).join(' ')}</div>
+      <div>moves: {moves.length}</div>
+    </div>)
 }

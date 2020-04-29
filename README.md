@@ -6,6 +6,7 @@ This is a starter template for [Learn Next.js](https://nextjs.org/learn).
 ...
 ```
 
+## v1
 ```
 CREATE TABLE games (
   id serial primary key,

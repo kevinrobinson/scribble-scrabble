@@ -2,19 +2,33 @@ import {v4 as uuidv4} from 'uuid';
 import _ from 'lodash';
 
 
-export function newGame(playerId) {
+export function newGame(playerKey) {
   const timestamp = new Date();
-  const key = uuidv4();
+  const key = `g:${uuidv4()}`;
+  const fullBag = bagOfLetters();
+  const {drawn, remaining} = drawLetters(fullBag, 7);  
   const doc = {
-    version: 'v1',
+    version: 'v2',
     createdAt: timestamp.getTime(),
-    playerIds: [playerId],
-    bag: bagOfLetters(),
-    tiles: makeTiles()
+    orderedPlayerKeys: [playerKey],
+    lettersForPlayers: {
+      [playerKey]: drawn
+    },
+    bagOfLetters: remaining,
+    moves: [],
+    tiles: makeTiles(),
   };
   return {key, doc, timestamp};
 }
 
+
+function drawLetters(bagLetters, nRequested) {
+  const n = Math.min(nRequested, bagLetters.length);
+  const drawn = bagLetters.slice(0, n);
+  const remaining = bagLetters.slice(n);
+
+  return {drawn, remaining};
+}
 
 const Tiles = {
   BLANK: 't:B',
@@ -140,7 +154,7 @@ function calculateScore(tiles, placements) {
 
 
 
-export const BLANK_LETTER = 'l:BLANK_LETTER';
+export const BLANK_LETTER = ' ';
 const letterInfo = {
   A: {
     count: 9,

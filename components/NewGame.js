@@ -13,7 +13,7 @@ export default function NewGame({children}) {
 
   useEffect(() => {
     if (!game) return;
-    Router.push('/games/[gameKey]', `/games/${game.key}`);
+    Router.push('/games/[gameKey]', `/games/${game.gameKey}`);
   }, [game])
 
   return (

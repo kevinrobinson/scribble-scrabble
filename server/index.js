@@ -3,7 +3,7 @@ import next from 'next';
 import bodyParser from 'body-parser';
 import helmet from 'helmet';
 import {enforceHTTPS, configuredCookieSession} from './middleware';
-import onAllGames from './endpoints/onAllGames';
+import onMyGames from './endpoints/onMyGames';
 import onGameKey from './endpoints/onGameKey';
 import onCreateGame from './endpoints/onCreateGame';
 import onUpdatePlayerName from './endpoints/onUpdatePlayerName';
@@ -11,7 +11,7 @@ import onPlayerName from './endpoints/onPlayerName';
 
 
 function addRoutes(server) {
-  server.get('/api/games', onAllGames);
+  server.get('/api/games', onMyGames);
   server.get('/api/games/:gameKey', onGameKey);
   server.post('/api/games', onCreateGame);
   server.get('/api/player', onPlayerName);

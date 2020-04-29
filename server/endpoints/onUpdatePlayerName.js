@@ -5,13 +5,13 @@ import {newGame} from '../../shared/scribbleScrabble';
 
 export default async function onUpdatePlayerName(req, res) {
   const {name} = req.body;
-  const uid = `u:${uuidv4()}`;
+  const playerKey = `p:${uuidv4()}`;
   const timestamp = new Date();
   const sql = `INSERT INTO players(fbuid, name, timestampz) VALUES ($1, $2, $3)`;
-  const values = [uid, name, timestamp];
+  const values = [playerKey, name, timestamp];
   await getPool().query(sql, values);
   
-  req.session.uid = uid;
+  req.session.playerKey = playerKey;
   res.status(200).json({name});
 }
 
