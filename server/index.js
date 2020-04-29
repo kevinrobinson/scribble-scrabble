@@ -9,6 +9,7 @@ import onCreateGame from './endpoints/onCreateGame';
 import onJoinGame from './endpoints/onJoinGame';
 import onUpdatePlayerName from './endpoints/onUpdatePlayerName';
 import onPlayerName from './endpoints/onPlayerName';
+import onMove from './endpoints/onMove';
 
 
 function addRoutes(server) {
@@ -16,8 +17,10 @@ function addRoutes(server) {
   server.get('/api/games/:gameKey', onGameKey);
   server.post('/api/games', onCreateGame);
   server.post('/api/games/:gameKey/join', onJoinGame);
+  server.post('/api/games/:gameKey/move', onMove);
   server.get('/api/player', onPlayerName);
   server.post('/api/players/name', onUpdatePlayerName);
+
 }
 
 function addMiddleware(server) {

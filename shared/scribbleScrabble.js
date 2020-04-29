@@ -36,6 +36,45 @@ export function gameDocAfterJoining(gameDoc, playerKey) {
   };
 }
 
+
+export function gameDocAfterMove(gameDoc, playerKey, move) {
+  // TODO validate points and placements ???
+  // TODO validate that is is their turn
+  const validatedMove = {
+    ...move,
+    playerKey
+  };
+
+  // draw new letters
+  const bagNow = gameDoc.bagOfLetters;
+  const trayLettersNow = gameDoc.lettersForPlayers[playerKey];
+  const placedLetters = Object.values(validatedMove.placements);
+  const {drawn, remaining} = drawLetters(bagNow, placedLetters.length);
+  const updatedPlayerLetters = _.differenceWith(trayLettersNow, placedLetters, _.isEqual).concat(drawn);
+
+  // update letters in bag, letters for player, and add move
+  return {
+    ...gameDoc,
+    bagOfLetters: remaining,
+    lettersForPlayers: {
+      ...gameDoc.lettersForPlayers,
+      [playerKey]: updatedPlayerLetters
+    },
+    moves: gameDoc.moves.concat([validatedMove]),
+  };
+}
+
+export function placementsFromMoves(moves) {
+  const placements = {};
+  moves.forEach(move => {
+    Object.keys(move.placements).forEach(tileIndex => {
+      placements[tileIndex] = move.placements[tileIndex];
+    })
+  });
+  return placements;
+}
+
+
 export function gameForClient(gameKey, playerKey, players, doc) {
   return {
     gameKey,
@@ -153,7 +192,8 @@ function bagOfLetters() {
 }
 
 
-export function calculateScore(tiles, placements) {
+// TODO: also need to support adjacent words formed
+export function calculatePoints(tiles, placements) {
   const scores = [];
   const multipliers = [1];
   Object.keys(placements).forEach(tileIndex => {

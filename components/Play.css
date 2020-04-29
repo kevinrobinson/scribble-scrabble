@@ -67,6 +67,25 @@ html, body {
   flex-direction: column;
   justify-content: space-between;
 }
+.Join-spacer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+.Join-button {
+  font-size: 12px;
+  background: white;
+  color: black;
+  font-weight: bold;
+  padding: 5px;
+  padding-left: 12px;
+  padding-right: 12px;
+  margin-right: 5px;
+  border: 1px solid darkred;
+  cursor: pointer;
+}
 .Board-links {
   background: darkblue;
   width: 100%;
@@ -164,8 +183,11 @@ html, body {
   justify-content: flex-start;
   margin-right: 20px;
 }
+.Bag-letters .Letter {
+  cursor: pointer;
+}
 .Bag-letter-margin {
-  margin-right: 5px;
+  margin-right: 8px;
 }
 .MarginRight {
   margin-right: 10px;
@@ -202,7 +224,6 @@ html, body {
   height: 22px;
   width: 22px;
   outline: 1px solid #e0b942;
-  cursor: pointer;
 }
 .Letter-letter {
   font-size: 16px;
@@ -213,4 +234,9 @@ html, body {
   letter-spacing: 0;
   bottom: 1px;
   right: 2px;
+}
+
+.Turn {
+  color: white;
+  font-size: 12px;
 }

@@ -1,6 +1,9 @@
 import React from 'react';
+import Link from 'next/link'
 import _ from 'lodash';
-import {Tiles, BLANK_LETTER, calculateScore} from '../shared/scribbleScrabble';
+import JoinGame from './JoinGame';
+import {Tiles, BLANK_LETTER, placementsFromMoves} from '../shared/scribbleScrabble';
+
 
 
 const NBSP = '\u00A0';
@@ -22,11 +25,9 @@ export default class Play extends React.Component {
   }
 
   onDoneTurnClick() {
-    const {game} = this.props;
-    const {tiles} = game;
+    const {onMove} = this.props;
     const {localPlacements} = this.state;
-    const score = calculateScore(tiles, localPlacements);
-    alert(`${score} points`);
+    onMove({localPlacements});
   }
 
   onResetClick() {
@@ -51,6 +52,7 @@ export default class Play extends React.Component {
   }
 
   onTileClick(tile, tileIndex) {
+    console.log('onTileClick', tile, tileIndex);
     const {selectedLetter, trayLetters, localPlacements} = this.state;
     const isFreeTile = (localPlacements[tileIndex] === null || localPlacements[tileIndex] === undefined);
 
@@ -123,6 +125,8 @@ function Board(props) {
     onDoneTurnClick,
     onDebug
   } = props;
+
+  const previousPlacements = placementsFromMoves(game.moves);
   return (
     <div className="Board">
       <div className="Board-header">
@@ -133,46 +137,81 @@ function Board(props) {
         {game.tiles.map((tile, index) => (
           <Tile
             key={index}
-            canDrop={selectedLetter !== null}
             tileIndex={index}
-            tile={tile} 
-            letter={localPlacements[index]}
+            tile={tile}
+            letter={previousPlacements[index] || localPlacements[index]}
+            isLetterLocal={localPlacements[index]}
+            isTrayLetterSelected={selectedLetter !== null} 
             onClick={onTileClick}
           />
         ))}
       </div>
       <div className="Board-drawer">
-        <div>
-          <div className="Bag-header">
-            <div className="Bag-title">Your tray</div>
-            <div className="Link MarginRight" onClick={() => onShuffle()}>shuffle</div>
-            <div className="Link" onClick={onResetClick}>reset</div>
-          </div>
-          <div className="Bag-list">
-            <Tray
-              letters={trayLetters}
-              selectedLetter={selectedLetter}
-              onTrayLetterClick={onTrayLetterClick}
-            />
-            <div className="Play-button" onClick={onDoneTurnClick}>Play</div>
-          </div>
-        </div>
+        {!hasJoined(game)
+          ? <div className="Join-spacer">
+              <JoinGame gameKey={game.gameKey} onJoined={() => window.location.reload()}>Join game?</JoinGame>
+            </div>
+          : (
+            <div>
+              <div className="Bag-header">
+                <div className="Bag-title">Your tray</div>
+                <div className="Link MarginRight" onClick={() => onShuffle()}>shuffle</div>
+                <div className="Link" onClick={onResetClick}>reset</div>
+              </div>
+              <div className="Bag-list">
+                <Tray
+                  letters={trayLetters}
+                  selectedLetter={selectedLetter}
+                  onTrayLetterClick={onTrayLetterClick}
+                />
+                <div className="Play-button" onClick={onDoneTurnClick}>Play</div>
+              </div>
+            </div>
+          )
+        }
       </div>
       <div className="Board-links">
-        <div className="Link" onClick={() => alert('not done yet')}>Menu</div>
-        <div className="Link" onClick={() => alert('not done yet')}>Add player</div>
+        <Link href="/" as="/"><div className="Link">Home</div></Link>
+        <div className="Link" onClick={() => alert(`Text or email the URL to your friends, and they\'ll be able to join:\n\n${window.location.href}`)}>Share</div>
         <div className="Link" onClick={() => alert('not done yet')}>Help</div>
-        <div className="Link" onClick={() => alert('not done yet')}>Quit game</div>
         <div className="Link" onClick={onDebug}>Debug</div>
+        <Turn game={game} />
       </div>
     </div>
   );
 }
 
-function Tile({tileIndex, tile, letter, canDrop, onClick}) { 
-  const className = ["Tile", canDrop ? 'Tile-clickable' : ''].join(' ');
+function Turn({game}) {
+  const {playerKey, players, moves} = game;
+  if (!hasJoined(game)) return <span className="Turn">spectating</span>;
+
+  const playerPlayingNow = players[(moves.length % players.length)];
+  const isYourTurn = (playerPlayingNow.playerKey === playerKey);
+  if (isYourTurn) return <span className="Turn"><b>your turn!</b></span>;
+
+  return <span className="Turn">Waiting for {playerPlayingNow.name}...</span>;
+}
+
+function Tile(props) { 
+  const {
+    tileIndex,
+    tile,
+    letter,
+    isTrayLetterSelected,
+    isLetterLocal,
+    onClick
+  } = props;
+  // place or remove your own
+  const canClick = (
+    (!letter && isTrayLetterSelected) ||
+    (letter && isLetterLocal)
+  );
+  const className = [
+    "Tile",
+    (canClick && 'Tile-clickable')
+  ].join(' ');
   return (
-    <div className={className} onClick={() => (canDrop || letter) && onClick(tile, tileIndex)}>
+    <div className={className} onClick={() => canClick && onClick(tile, tileIndex)}>
       {letter
         ? <Letter letter={letter} />
         : <TileBackground tile={tile} />
@@ -229,4 +268,10 @@ function Letter({letter, style={}, onClick=null}) {
       <div className="Letter-points">{pointsEl}</div>
     </div>
   );
+}
+
+
+function hasJoined(game) {
+  const {players, playerKey} = game;
+  return _.some(players, {playerKey});
 }

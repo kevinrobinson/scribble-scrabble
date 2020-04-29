@@ -1,7 +1,19 @@
-import {getPool} from './db';
+import _ from 'lodash';
+import {getPool, withinTransaction} from './db';
 import {NotFoundError} from './errors';
 import {gameForClient} from '../shared/scribbleScrabble';
 
+
+export async function updateGameDoc(gameKey, updateDocFn) {
+  return withinTransaction(async client => {
+    const {doc} = await queryGameRecord(gameKey, {client});
+    const updatedDoc = updateDocFn(doc);
+    if (!_.isEqual(updatedDoc, doc)) {
+      const sql = 'UPDATE games SET doc = $1 WHERE key = $2';
+      await client.query(sql, [updatedDoc, gameKey]);
+    }
+  });
+}
 
 // Player may not have joined (but game is public if you have the key)
 export async function queryGameForPlayer(gameKey, playerKey) {

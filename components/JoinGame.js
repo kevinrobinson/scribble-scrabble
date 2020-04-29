@@ -18,7 +18,7 @@ export default function JoinGame({gameKey, onJoined, children}) {
   }, [isNavigating])
 
   return (
-    <button disabled={isJoining} type="button" onClick={() => setIsJoining(true)}>
+    <button className="Join-button" disabled={isJoining} type="button" onClick={() => setIsJoining(true)}>
       {children}
     </button>
   );
