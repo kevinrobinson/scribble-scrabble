@@ -1,6 +1,5 @@
 import {v4 as uuidv4} from 'uuid';
 import {getPool} from '../db';
-import {newGame} from '../../shared/scribbleScrabble';
 
 
 export default async function onUpdatePlayerName(req, res) {

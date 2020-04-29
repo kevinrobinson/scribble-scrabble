@@ -24,3 +24,11 @@ export function configuredCookieSession() {
     signed: true
   });
 }
+
+export function errorHandler(err, req, res, next) {
+  if (err.errorType === 'NotFoundError') {
+    return res.status(404).json({});
+  }
+  
+  return next(err);
+}

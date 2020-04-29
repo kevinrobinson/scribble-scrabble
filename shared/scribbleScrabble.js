@@ -2,25 +2,53 @@ import {v4 as uuidv4} from 'uuid';
 import _ from 'lodash';
 
 
-export function newGame(playerKey) {
+export function newGameRecord(playerKey) {
   const timestamp = new Date();
   const key = `g:${uuidv4()}`;
-  const fullBag = bagOfLetters();
-  const {drawn, remaining} = drawLetters(fullBag, 7);  
-  const doc = {
+  const initialGameDoc = {
     version: 'v2',
     createdAt: timestamp.getTime(),
-    orderedPlayerKeys: [playerKey],
-    lettersForPlayers: {
-      [playerKey]: drawn
-    },
-    bagOfLetters: remaining,
+    orderedPlayerKeys: [],
+    lettersForPlayers: {},
+    bagOfLetters: bagOfLetters(),
     moves: [],
     tiles: makeTiles(),
   };
+  const doc = gameDocAfterJoining(initialGameDoc, playerKey);
   return {key, doc, timestamp};
 }
 
+export function gameDocAfterJoining(gameDoc, playerKey) {
+  if (gameDoc.orderedPlayerKeys.indexOf(playerKey) !== -1) {
+    return gameDoc;
+  }
+
+  const bagNow = gameDoc.bagOfLetters;
+  const {drawn, remaining} = drawLetters(bagNow, 7);  
+  return {
+    ...gameDoc,
+    orderedPlayerKeys: gameDoc.orderedPlayerKeys.concat([playerKey]),
+    bagOfLetters: remaining,
+    lettersForPlayers: {
+      ...gameDoc.lettersForPlayers,
+      [playerKey]: drawn
+    }
+  };
+}
+
+export function gameForClient(gameKey, playerKey, players, doc) {
+  return {
+    gameKey,
+    playerKey,
+    players,
+    version: doc.version,
+    createdAt: doc.createdAt,
+    orderedPlayerKeys: doc.orderedPlayerKeys,
+    letters: doc.lettersForPlayers[playerKey] || [],
+    tiles: doc.tiles,
+    moves: doc.moves
+  };
+}
 
 function drawLetters(bagLetters, nRequested) {
   const n = Math.min(nRequested, bagLetters.length);

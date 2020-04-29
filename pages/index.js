@@ -15,7 +15,9 @@ export default function Home() {
         <NewGame>New game!</NewGame>
       </div>
       {games && games.length > 0 && games.map(game => (
-        <GameLink key={game.key} game={game} />
+        <div key={game.gameKey}>
+          <GameLink game={game} />
+        </div>
       ))}
     </Layout>
   )

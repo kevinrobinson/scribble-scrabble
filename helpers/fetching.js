@@ -17,7 +17,12 @@ export function postJSON(url, params = {}) {
 
 
 function fetcher(url) {
-  return fetch(url, { credentials: 'same-origin' }).then(r => r.json());
+  return fetch(url, { credentials: 'same-origin' }).then(r => {
+    if(r.status !== 200) {
+      throw new Error(r.status);
+    }
+    return r.json();
+  });
 }
 export function useAutoFetchingMagic(key, options) {
   return useSWR(key, fetcher, options);
