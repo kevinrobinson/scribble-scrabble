@@ -1,5 +1,4 @@
 import cookieSession from 'cookie-session';
-import {v4 as uuidv4} from 'uuid';
 import {getPool} from './db';
 
 
@@ -24,19 +23,4 @@ export function configuredCookieSession() {
     httpOnly: true,
     signed: true
   });
-}
-
-// write to the session cookie, and write a record
-// separately, they can set the name of their own
-export async function enforceUserId(req, res, next) {
-  if (!req.session.uid) {
-    const uid = `u:${uuidv4()}`;
-    const timestamp = new Date();
-    const sql = `INSERT INTO players(fbuid, timestampz) VALUES ($1, $2)`;
-    const values = [uid, timestamp];
-    await getPool().query(sql, values);
-    req.session.uid = uid;
-  }
-
-  next();
 }

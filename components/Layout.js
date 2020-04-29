@@ -22,11 +22,10 @@ export default function Layout({children}) {
 
 
 function WithPlayerName({children}) {
-  const {data, isValidating, mutate} = usePlainFetching('/api/player');
+  const {data, error, isValidating, mutate} = usePlainFetching('/api/player');
   const playerName = (data && data.name);
-  const [localName, setName] = useState(playerName || '');
 
-  return (playerName || isValidating)
+  return (playerName || isValidating && !error)
     ? children
     : <PickName onDone={mutate} />;
 }
@@ -36,7 +35,7 @@ class PickName extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: props.defaultName
+      name: ''
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);

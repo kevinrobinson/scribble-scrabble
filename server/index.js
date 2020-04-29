@@ -2,7 +2,7 @@ import express from 'express';
 import next from 'next';
 import bodyParser from 'body-parser';
 import helmet from 'helmet';
-import {enforceHTTPS, configuredCookieSession, enforceUserId} from './middleware';
+import {enforceHTTPS, configuredCookieSession} from './middleware';
 import onAllGames from './endpoints/onAllGames';
 import onGameKey from './endpoints/onGameKey';
 import onCreateGame from './endpoints/onCreateGame';
@@ -14,7 +14,6 @@ function addRoutes(server) {
   server.get('/api/games', onAllGames);
   server.get('/api/games/:gameKey', onGameKey);
   server.post('/api/games', onCreateGame);
-
   server.get('/api/player', onPlayerName);
   server.post('/api/players/name', onUpdatePlayerName);
 }
@@ -22,7 +21,6 @@ function addRoutes(server) {
 function addMiddleware(server) {
   server.use(bodyParser.json())
   server.use(configuredCookieSession());
-  server.use(enforceUserId);
   server.use(enforceHTTPS);
   server.use(helmet());
 }
