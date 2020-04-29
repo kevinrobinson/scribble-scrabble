@@ -5,12 +5,9 @@ import {Pool} from 'pg';
 // For querying the database
 function createPool() {
   const {DATABASE_URL, NODE_ENV} = getConfig().serverRuntimeConfig;
-  const ssl = (NODE_ENV === 'development')
-    ? false
-    : { ssl: { rejectUnauthorized: false } } // see https://github.com/brianc/node-postgres/issues/2009#issuecomment-615484484
+  // re ssl, see https://github.com/brianc/node-postgres/issues/2009#issuecomment-615484484
   return new Pool({
-    connectionString: DATABASE_URL,
-    ssl
+    connectionString: DATABASE_URL
   });
 }
 
